@@ -19,7 +19,6 @@ public class App {
         String time = util.receberNome();
         System.out.println(String.format("O nome do seu time é: %s", time));
         
-        util.exibirMenu();
-        util.escolherItem();
+        util.escolherItem(time);
     }
 }

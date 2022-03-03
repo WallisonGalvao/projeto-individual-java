@@ -30,50 +30,51 @@ public class Utilitarios {
         System.out.println("=".repeat(36));
 
         System.out.println("Para escolher, digite o número dentro dos parênteses");
-        System.out.println("(1) Calcular media de vitórias");
+        System.out.println("(1) Calcular percentual de vitórias");
         System.out.println("(2) Para participar do sorteio de uma camiseta");
         System.out.println("(3) Para registrar os jogadores");
         System.out.println("(4) Sair");
     }
 
-    void voltarParaMenu() {
-        Scanner leitor = new Scanner(System.in);
+    void voltarParaMenu(String timeUsuario) {
+        Scanner leitorNum = new Scanner(System.in);
         System.out.println("Deseja voltar ao menu principal?");
         System.out.println("Digite (1) para sim e (0) para não");
-        Integer escolha = leitor.nextInt();
+        Integer escolha = leitorNum.nextInt();
 
-        if (escolha != 1 && escolha != 0) {
-            System.out.println("Digite 1 ou 0!");
-        } else {
+        if (escolha == 1 || escolha == 0) {
             if (escolha == 1) {
-                escolherItem();
+                escolherItem(timeUsuario);
             } else {
                 System.out.println("Obrigado! Até logo.");
             }
         }
+        else {
+            System.out.println("Digite 1 ou 0!");
+        }
 
     }
 
-    String calcularMediaVitorias() {
-        System.out.println("===== MEDIA DE VITORIAS =====");
-        Integer media;
+    Double calcularMediaVitorias() {
+        System.out.println("===== PERCENTUAL DE VITORIAS =====");
+        Double percentual = 0.0;
 
         System.out.println("Digite aqui o número de vitórias do seu time no campeonato");
         Scanner leitor = new Scanner(System.in);
 
-        Integer numeroDeVitorias = leitor.nextInt();
+        Double numeroDeVitorias = leitor.nextDouble();
 
         System.out.println("Agora digite o número de jogos");
-        Integer numeroDeJogos = leitor.nextInt();
+        Double numeroDeJogos = leitor.nextDouble();
 
-        media = numeroDeVitorias / numeroDeJogos;
+        percentual = numeroDeVitorias / numeroDeJogos;
 
-        String frase = String.format("A media de vitórias por jogo é de: %d", media);
-        return frase;
+        
+        return percentual;
 
     }
 
-    String sortearCamisetas() {
+    Integer sortearCamisetas(String timeUsuario) {
         String frase = "Infelizmente você não ganhou, mais sorte na próxima";
         Boolean ganhou = false;
         Integer contador = 3;
@@ -88,22 +89,26 @@ public class Utilitarios {
         if (numeroDigitado < 1 || numeroDigitado > 30) {
             System.out.println("Digite um número entre 1 e 30!");
             System.out.println("Digite novamente");
-            numeroDigitado = leitor.nextInt();
+            sortearCamisetas(timeUsuario);
         } else {
             System.out.println(String.format("Seu número da sorte é %d", numeroDigitado));
             while (contador != 0) {
                 Integer numeroAleatorio = ThreadLocalRandom.current().nextInt(1, 30);
+                System.out.println(String.format("O número sorteado foi: %d", numeroAleatorio));
                 if (!Objects.equals(numeroDigitado, numeroAleatorio)) {
                     contador--;
                 } else {
                     ganhou = true;
                     System.out.println(ganhou);
-                    frase = "Parabéns! Você ganhou uma camiseta do seu time!";
+                    frase = String.format("Parabéns! Você ganhou uma camiseta do %s", timeUsuario);
+                    contador--;
                 }
-                System.out.println(String.format("O número sorteado foi: %d", numeroAleatorio));
+                
             }
         }
-        return frase;
+        System.out.println(frase);
+        voltarParaMenu(timeUsuario);
+        return 0;
     }
 
 //    String registrarJogadores() {
@@ -115,16 +120,19 @@ public class Utilitarios {
 //        }
 //        return
 //    }
-    void escolherItem() {
+    void escolherItem(String time) {
+        exibirMenu();
+        String timeUsuario = time;
         Scanner leitor = new Scanner(System.in);
         Integer escolha = leitor.nextInt();
 
         switch (escolha) {
             case 1:
-                System.out.println(calcularMediaVitorias());
+                Double media = calcularMediaVitorias();
+                System.out.println(String.format("A media de vitorias por jogo é:", media));
                 break;
             case 2:
-                System.out.println(sortearCamisetas());
+                sortearCamisetas(timeUsuario);
                 break;
             case 3:
                 //registrarJogadores();
@@ -134,6 +142,7 @@ public class Utilitarios {
                 break;
             default:
                 System.out.println("Digite entre 1 e 4!");
+                escolherItem(timeUsuario);
                 break;
         }
     }
