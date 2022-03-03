@@ -51,11 +51,12 @@ public class Utilitarios {
         }
         else {
             System.out.println("Digite 1 ou 0!");
+            voltarParaMenu(timeUsuario);
         }
 
     }
 
-    Double calcularMediaVitorias() {
+    Double calcularPercentualVitorias() {
         System.out.println("===== PERCENTUAL DE VITORIAS =====");
         Double percentual = 0.0;
 
@@ -128,8 +129,9 @@ public class Utilitarios {
 
         switch (escolha) {
             case 1:
-                Double media = calcularMediaVitorias();
-                System.out.println(String.format("A media de vitorias por jogo é:", media));
+                Double percentual = calcularPercentualVitorias();
+                System.out.println(String.format("O percentual de vitorias por jogo do %s é: %.3f", timeUsuario, percentual));
+                voltarParaMenu(timeUsuario);
                 break;
             case 2:
                 sortearCamisetas(timeUsuario);
