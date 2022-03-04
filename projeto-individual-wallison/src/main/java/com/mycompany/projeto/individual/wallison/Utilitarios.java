@@ -32,7 +32,7 @@ public class Utilitarios {
         System.out.println("Para escolher, digite o número dentro dos parênteses");
         System.out.println("(1) Calcular percentual de vitórias");
         System.out.println("(2) Para participar do sorteio de uma camiseta");
-        System.out.println("(3) Para registrar os jogadores");
+        System.out.println("(3) Para apostar");
         System.out.println("(4) Sair");
     }
 
@@ -48,8 +48,7 @@ public class Utilitarios {
             } else {
                 System.out.println("Obrigado! Até logo.");
             }
-        }
-        else {
+        } else {
             System.out.println("Digite 1 ou 0!");
             voltarParaMenu(timeUsuario);
         }
@@ -58,7 +57,7 @@ public class Utilitarios {
 
     Double calcularPercentualVitorias() {
         System.out.println("===== PERCENTUAL DE VITORIAS =====");
-        Double percentual = 0.0;
+        Double percentual;
 
         System.out.println("Digite aqui o número de vitórias do seu time no campeonato");
         Scanner leitor = new Scanner(System.in);
@@ -70,7 +69,6 @@ public class Utilitarios {
 
         percentual = numeroDeVitorias / numeroDeJogos;
 
-        
         return percentual;
 
     }
@@ -80,7 +78,7 @@ public class Utilitarios {
         Boolean ganhou = false;
         Integer contador = 3;
         Scanner leitor = new Scanner(System.in);
-        
+
         System.out.println("===== SORTEIO =====");
         System.out.println("Serão 3 sorteios");
 
@@ -104,7 +102,7 @@ public class Utilitarios {
                     frase = String.format("Parabéns! Você ganhou uma camiseta do %s", timeUsuario);
                     contador--;
                 }
-                
+
             }
         }
         System.out.println(frase);
@@ -112,16 +110,202 @@ public class Utilitarios {
         return 0;
     }
 
-//    String registrarJogadores() {
-//        String [] time = new string [MAXIMO];
-//        Integer MAXIMO = 15;
-//        Scanner leitor = new Scanner (System.in);
-//        for (int i = 0; i < MAXIMO; i++){
-//            time[i] = leitor.nextLine();
-//        }
-//        return
-//    }
+    String sorteioTime() {
+
+        String time = "";
+        for (Integer i = 0; i < 30; i++) {
+            Integer numeroTime = ThreadLocalRandom.current().nextInt(1, 31);
+
+            switch (numeroTime) {
+                case 1:
+                    time = "Atlanta Hawks";
+                    break;
+                case 2:
+                    time = "Brooklyn Nets";
+                    break;
+                case 3:
+                    time = "Charlotte Hornets";
+                    break;
+                case 4:
+                    time = "Toronto Raptors";
+                    break;
+                case 5:
+                    time = "Miami Heat";
+                    break;
+                case 6:
+                    time = "Philadelphia Sixers";
+                    break;
+                case 7:
+                    time = "Orlando Magic";
+                    break;
+                case 8:
+                    time = "Chicago Bulls";
+                    break;
+                case 9:
+                    time = "Milwaukee Bucks";
+                    break;
+                case 10:
+                    time = "Cleveland Cavaliers";
+                    break;
+                case 11:
+                    time = "Indiana Pacers";
+                    break;
+                case 12:
+                    time = "New York Knicks";
+                    break;
+                case 13:
+                    time = "Boston Celtics";
+                    break;
+                case 14:
+                    time = "Detroit Pistons";
+                    break;
+                case 15:
+                    time = "Washington Wizards";
+                    break;
+                case 16:
+                    time = "Los Angeles Lakers";
+                    break;
+                case 17:
+                    time = "Los Angeles Clippers";
+                    break;
+                case 18:
+                    time = "Memphis Grizzles";
+                    break;
+                case 19:
+                    time = "Golden State Warriors";
+                    break;
+                case 20:
+                    time = "Utah Jazz";
+                    break;
+                case 21:
+                    time = "Minesotta Timberwolves";
+                    break;
+                case 22:
+                    time = "Phoenix Suns";
+                    break;
+                case 23:
+                    time = "Dallas Mavericks";
+                    break;
+                case 24:
+                    time = "Denver Nuggets";
+                    break;
+                case 25:
+                    time = "New Orleans Pelicans";
+                    break;
+                case 26:
+                    time = "Sacramento Kings";
+                    break;
+                case 27:
+                    time = "Houston Rockets";
+                    break;
+                case 28:
+                    time = "San Antonio Spurs";
+                    break;
+                case 29:
+                    time = "Oklahoma City Thunder";
+                    break;
+                case 30:
+                    time = "Portland Trail Blazers";
+                    break;
+                default:
+                    System.out.println("Erro");
+                    break;
+
+            }
+        }
+        return time;
+
+    }
+
+    Boolean resultadoAposta(Integer escolha, String timeSorteado, String timeUsuario) {
+
+        Boolean ganhou = false;
+        Integer sorteio = ThreadLocalRandom.current().nextInt(1, 2);
+
+        if (Objects.equals(sorteio, escolha)) {
+            ganhou = true;
+
+        } else {
+            System.out.println("Não foi dessa vez");
+        }
+
+        return ganhou;
+    }
+
+    void apostas(String time, Double saldo) {
+
+        String timeUsuario = time;
+
+        Integer pontuacao;
+
+        Integer escolha;
+        Scanner leitor = new Scanner(System.in);
+        String timeSorteado = sorteioTime();
+
+        if (timeSorteado.equals(timeUsuario)) {
+            sorteioTime();
+        } else {
+            System.out.println("Aposte no vencedor");
+            System.out.println(String.format("Saldo: R$ %.2f", saldo));
+            System.out.println(String.format("%s versus. %s", timeSorteado, timeUsuario));
+            System.out.println(String.format("Digite (1) para %s e (2) para %s", timeSorteado, timeUsuario));
+
+            escolha = leitor.nextInt();
+
+            System.out.println("Digite o valor da aposta (limitado a R$100)");
+            Double valorAposta = leitor.nextDouble();
+
+            if (valorAposta < saldo) {
+                if (valorAposta <= 0 || valorAposta > 100) {
+                    System.out.println("Digite um valor válido");
+                    apostas(timeUsuario, saldo);
+                }
+            }
+            else{
+                System.out.println(String.format("Saldo insuficiente. Saldo atual %.2f: ", saldo));
+                System.out.println("Para depositar: (1)");
+                System.out.println("Para sair: (0)");
+                
+                Integer escolhaUsuario = leitor.nextInt();
+                
+                if (escolhaUsuario == 0){
+                    voltarParaMenu(timeUsuario);
+                    
+                }
+                else{
+                    System.out.println("Digite o valor que deseja depositar");
+                    saldo+=leitor.nextDouble();
+                    apostas(timeUsuario, saldo);
+                    
+                }
+            }
+
+            Boolean resultado = resultadoAposta(escolha, timeSorteado, timeUsuario);
+
+            if (resultado == true) {
+                pontuacao = 2;
+                saldo += pontuacao*valorAposta;
+                System.out.println(String.format("Você acertou! Saldo: R$ %.2f", saldo));
+            } else {
+                saldo-= valorAposta;
+                System.out.println(String.format("Errou! Saldo: R$ %.2f", saldo));
+            }
+            
+            System.out.println("Deseja apostar mais?");
+            System.out.println("Digite 1 para sim e 0 para não");
+            Integer apostarMais = leitor.nextInt();
+            if (apostarMais == 0){
+                voltarParaMenu(timeUsuario);
+            }
+            else{
+                apostas(timeUsuario, saldo);
+            }
+        }
+        
+    }
+
     void escolherItem(String time) {
+        Double saldo = 5.0;
         exibirMenu();
         String timeUsuario = time;
         Scanner leitor = new Scanner(System.in);
@@ -130,14 +314,15 @@ public class Utilitarios {
         switch (escolha) {
             case 1:
                 Double percentual = calcularPercentualVitorias();
-                System.out.println(String.format("O percentual de vitorias por jogo do %s é: %.3f", timeUsuario, percentual));
+                System.out.println(String.format("O percentual de vitorias"
+                        + "por jogo do %s é: %.3f", timeUsuario, percentual));
                 voltarParaMenu(timeUsuario);
                 break;
             case 2:
                 sortearCamisetas(timeUsuario);
                 break;
             case 3:
-                //registrarJogadores();
+                apostas(timeUsuario, saldo);
                 break;
             case 4:
                 System.out.println("Obrigado! Até a próxima :)");
